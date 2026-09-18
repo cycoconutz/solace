@@ -10,7 +10,7 @@ export const MOODS: Mood[] = [
   { id: 'good', emoji: '😊', label: 'Good', color: '#c8e0ff' },
   { id: 'steady', emoji: '😌', label: 'Steady', color: '#d6c8ff' },
   { id: 'low', emoji: '😔', label: 'Low', color: '#ffdcc7' },
-  { id: 'heavy', emoji: '🥀', label: 'Heavy', color: '#ffd0dd' },
+  { id: 'heavy', emoji: '😢', label: 'Heavy', color: '#ffd0dd' },
 ]
 
 export interface JournalEntry {

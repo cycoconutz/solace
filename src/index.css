@@ -44,76 +44,21 @@ body {
   overflow-x: hidden;
 }
 
-/* ---- pastel blob backdrop ---- */
+/* ---- pastel backdrop ----
+   One static, pre-rasterized gradient mesh. No blur() filters and no
+   animation, so the compositor never has to re-render the background. */
 
-.blobs {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.blob {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(90px);
-  will-change: transform;
-}
-
-.blob-1 {
-  width: 46vmax;
-  height: 46vmax;
-  left: -12vmax;
-  top: -14vmax;
-  background: radial-gradient(circle at 35% 35%, var(--blush), transparent 70%);
-  animation: drift 30s ease-in-out infinite alternate;
-}
-
-.blob-2 {
-  width: 42vmax;
-  height: 42vmax;
-  right: -10vmax;
-  top: 4vmax;
-  background: radial-gradient(circle at 60% 40%, var(--sky), transparent 70%);
-  animation: drift 36s ease-in-out -8s infinite alternate-reverse;
-}
-
-.blob-3 {
-  width: 44vmax;
-  height: 44vmax;
-  left: 20vmax;
-  bottom: -16vmax;
-  background: radial-gradient(circle at 45% 45%, var(--mint), transparent 70%);
-  animation: drift 40s ease-in-out -14s infinite alternate;
-}
-
-.blob-4 {
-  width: 34vmax;
-  height: 34vmax;
-  right: 16%;
-  bottom: -6vmax;
-  background: radial-gradient(circle at 50% 50%, var(--peach), transparent 70%);
-  animation: drift 28s ease-in-out -4s infinite alternate-reverse;
-}
-
-@keyframes drift {
-  from {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  to {
-    transform: translate3d(6vmax, -5vmax, 0) scale(1.12);
-  }
-}
-
-/* subtle film grain */
-body::after {
+body::before {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: 1;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  z-index: -1;
+  background:
+    radial-gradient(40vmax 40vmax at 4% 2%, rgba(255, 214, 236, 0.95), transparent 62%),
+    radial-gradient(36vmax 36vmax at 98% 6%, rgba(200, 224, 255, 0.9), transparent 60%),
+    radial-gradient(44vmax 44vmax at 24% 98%, rgba(195, 238, 221, 0.9), transparent 62%),
+    radial-gradient(30vmax 30vmax at 90% 90%, rgba(255, 220, 199, 0.85), transparent 60%),
+    linear-gradient(180deg, #f7f0ff 0%, #fdf3f9 100%);
 }
 
 /* ---- shell ---- */
@@ -174,8 +119,8 @@ body::after {
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-lg);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
 
 /* ---- buttons ---- */
@@ -191,11 +136,9 @@ body::after {
   border-radius: 999px;
   cursor: pointer;
   color: var(--ink);
-  background: var(--glass-bg-strong);
+  background: rgba(255, 255, 255, 0.7);
   border-color: var(--glass-border);
   box-shadow: 0 10px 24px -14px rgba(124, 111, 179, 0.6);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease,
@@ -350,8 +293,8 @@ body::after {
   border-radius: var(--radius-lg);
   background: var(--glass-bg);
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(22px) saturate(150%);
-  -webkit-backdrop-filter: blur(22px) saturate(150%);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
   transition:
     transform 0.3s cubic-bezier(0.22, 0.7, 0.3, 1),
     box-shadow 0.3s ease,
@@ -379,8 +322,22 @@ body::after {
 }
 
 .home-card .card-icon {
-  font-size: 30px;
-  margin-bottom: 12px;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 14px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.icon-sky {
+  color: #6fa8d8;
+}
+
+.icon-lav {
+  color: #a98fd8;
 }
 
 .home-card h2 {
@@ -409,10 +366,8 @@ body::after {
 .home-stats span {
   padding: 8px 18px;
   border-radius: 999px;
-  background: var(--glass-bg);
+  background: rgba(255, 255, 255, 0.6);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
   box-shadow: 0 10px 24px -18px rgba(124, 111, 179, 0.5);
 }
 
@@ -440,9 +395,7 @@ body::after {
 .pattern-card {
   border: 1px solid var(--glass-border);
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.28);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
+  background: rgba(255, 255, 255, 0.42);
   padding: 18px 16px;
   cursor: pointer;
   text-align: center;
@@ -574,7 +527,7 @@ body::after {
   inset: -18%;
   border-radius: 50%;
   z-index: -1;
-  filter: blur(24px);
+  filter: blur(16px);
   opacity: 0.75;
   background: radial-gradient(circle, var(--phase-glow), transparent 70%);
   transition: opacity 0.6s ease;
@@ -721,8 +674,6 @@ body::after {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   transition:
     transform 0.2s ease,
     background 0.2s ease,
@@ -759,8 +710,6 @@ body::after {
   border-radius: 16px;
   padding: 14px 16px;
   resize: vertical;
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   transition:
     box-shadow 0.25s ease,
     background 0.25s ease;
@@ -808,10 +757,8 @@ body::after {
   position: relative;
   padding: 18px 46px 18px 20px;
   border-radius: var(--radius-md);
-  background: var(--glass-bg);
+  background: rgba(255, 255, 255, 0.58);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(18px) saturate(150%);
-  -webkit-backdrop-filter: blur(18px) saturate(150%);
   box-shadow: var(--glass-shadow);
   animation: rise 0.45s ease both;
 }
@@ -932,10 +879,6 @@ body::after {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .blob {
-    animation: none;
-  }
-
   .view,
   .entry {
     animation: none;

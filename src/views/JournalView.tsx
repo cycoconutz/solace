@@ -86,7 +86,7 @@ export default function JournalView() {
             <button type="submit" className="btn btn-primary" disabled={text.trim().length < 3}>
               Save {mood.emoji}
             </button>
-            <span className={`saved-hint ${saved ? 'show' : ''}`}>Saved ✦</span>
+            <span className={`saved-hint ${saved ? 'show' : ''}`}>Saved</span>
           </div>
         </form>
 

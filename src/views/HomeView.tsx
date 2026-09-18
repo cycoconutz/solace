@@ -24,6 +24,25 @@ function greeting(): string {
   return 'Good evening'
 }
 
+function WindIcon() {
+  return (
+    <svg className="card-icon icon-sky" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M3 8h11a3 3 0 1 0-3-3" />
+      <path d="M3 12h16a3 3 0 1 1-3 3" />
+      <path d="M3 16h7" />
+    </svg>
+  )
+}
+
+function BookIcon() {
+  return (
+    <svg className="card-icon icon-lav" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 6C10.2 4.6 7.4 4 4 4v13c3.4 0 6.2.6 8 2 1.8-1.4 4.6-2 8-2V4c-3.4 0-6.2.6-8 2Z" />
+      <path d="M12 6v13" />
+    </svg>
+  )
+}
+
 interface HomeViewProps {
   onBreathe: () => void
   onJournal: () => void
@@ -37,30 +56,30 @@ export default function HomeView({ onBreathe, onJournal }: HomeViewProps) {
   return (
     <div className="view">
       <div className="home-greeting">
-        <p className="eyebrow">{greeting()} ✦</p>
+        <p className="eyebrow">{greeting()}</p>
         <h1 className="home-title">take a soft moment</h1>
         <p className="home-quote">“{quote}”</p>
       </div>
 
       <div className="home-cards">
         <button type="button" className="home-card" onClick={onBreathe}>
-          <span className="card-icon">🌊</span>
+          <WindIcon />
           <h2>Breathe</h2>
           <p>A guided breathing session to settle your nerves and slow the clock.</p>
         </button>
         <button type="button" className="home-card" onClick={onJournal}>
-          <span className="card-icon">🪶</span>
+          <BookIcon />
           <h2>Reflect</h2>
           <p>Whisper how you feel and what you're grateful for. Kept only on your device.</p>
         </button>
       </div>
 
       <div className="home-stats">
-        <span>🔥 {streak}-day streak</span>
+        <span>{streak}-day streak</span>
         <span>
-          ✍️ {entries.length} {entries.length === 1 ? 'entry' : 'entries'}
+          {entries.length} {entries.length === 1 ? 'entry' : 'entries'}
         </span>
-        <span>🧘 {MOODS.length} moods</span>
+        <span>{MOODS.length} moods</span>
       </div>
     </div>
   )

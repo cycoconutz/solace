@@ -10,13 +10,6 @@ export default function App() {
 
   return (
     <div className="app">
-      <div className="blobs" aria-hidden="true">
-        <span className="blob blob-1" />
-        <span className="blob blob-2" />
-        <span className="blob blob-3" />
-        <span className="blob blob-4" />
-      </div>
-
       <header className="header">
         <a
           className="brand"
