@@ -942,6 +942,6 @@ body::after {
   }
 
   .breath {
-    transition: none;
+    transition: none !important;
   }
 }

@@ -4,7 +4,6 @@ import {
   PHASE_LABELS,
   formatDuration,
   phaseClass,
-  phaseScale,
   useBreathing,
 } from '../hooks/useBreathing'
 
@@ -133,7 +132,7 @@ function BreathingSession({
 
   const { info, running, remaining, total } = breath
   const started = breath.elapsed > 0 || running
-  const scale = phaseScale(info.phase, started)
+  const scale = started ? info.scale : 0.55
   const label = PHASE_LABELS[info.phase]
   const progress = 1 - remaining / total
   const dashOffset = RING_C * (1 - progress)
@@ -189,7 +188,7 @@ function BreathingSession({
 
       <div className="cycle-dots" aria-label="Progress through cycles">
         {Array.from({ length: cycles }, (_, i) => (
-          <span key={i} className={`cycle-dot ${i < info.cycle ? 'done' : ''}`} />
+          <span key={i} className={`cycle-dot ${i < info.cycle - 1 ? 'done' : ''}`} />
         ))}
       </div>
 

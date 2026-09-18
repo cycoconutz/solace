@@ -49,10 +49,12 @@ export const PATTERNS: BreathPattern[] = [
 
 export interface BreathInfo {
   phase: BreathPhase
+  phaseIndex: number
   phaseDuration: number
   phaseElapsed: number
   phaseRemaining: number
   cycle: number
+  scale: number
 }
 
 function phaseAt(
@@ -65,22 +67,36 @@ function phaseAt(
   const pos = elapsed % unit
 
   let acc = 0
-  let current: PhaseSpec = pattern.phases[pattern.phases.length - 1]
-  for (const phase of pattern.phases) {
-    if (pos < acc + phase.duration) {
-      current = phase
+  let index = pattern.phases.length - 1
+  for (let i = 0; i < pattern.phases.length; i++) {
+    if (pos < acc + pattern.phases[i].duration) {
+      index = i
       break
     }
-    acc += phase.duration
+    acc += pattern.phases[i].duration
   }
+  const current = pattern.phases[index]
   const phaseElapsed = Math.min(pos - acc, current.duration)
+
+  // hold keeps whatever the previous phase settled on (inhale → open, exhale → closed)
+  const prev = index > 0 ? pattern.phases[index - 1].phase : null
+  const scale =
+    current.phase === 'inhale'
+      ? 1
+      : current.phase === 'exhale'
+        ? 0.55
+        : prev === 'inhale'
+          ? 1
+          : 0.55
 
   return {
     phase: current.phase,
+    phaseIndex: index,
     phaseDuration: current.duration,
     phaseElapsed,
     phaseRemaining: current.duration - phaseElapsed,
     cycle,
+    scale,
   }
 }
 
@@ -135,13 +151,6 @@ export const PHASE_LABELS: Record<BreathPhase, string> = {
   inhale: 'Breathe in',
   hold: 'Hold',
   exhale: 'Let it out',
-}
-
-export function phaseScale(phase: BreathPhase, started: boolean): number {
-  if (!started) return 0.55
-  if (phase === 'inhale') return 1
-  if (phase === 'exhale') return 0.55
-  return 1
 }
 
 export function phaseClass(phase: BreathPhase): string {
