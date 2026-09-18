@@ -31,13 +31,23 @@ npm run preview
 
 ## Deploy to GitHub Pages
 
-```bash
-npm run build
-gh repo create solace --public --source . --push
-gh repo deploy --repo <you>/solace --source dist --push
-```
+This repo ships with `.github/workflows/deploy.yml`, so every push to `main`
+builds and publishes to GitHub Pages automatically.
 
-Or push the repo and enable Pages (branch `gh-pages`, folder `/ (root)`) after running `npm run build` and copying `dist` to a `gh-pages` branch.
+1. Create an empty repo on GitHub named `solace` (no README).
+2. Connect and push:
+
+   ```bash
+   git remote add origin https://github.com/<you>/solace.git
+   git push -u origin main
+   ```
+
+3. In the repo: **Settings → Pages → Build and deployment → Source: GitHub Actions**.
+
+The site lands at `https://<you>.github.io/solace/`.
+
+`base: './'` in `vite.config.ts` means the build works from any subpath, so no
+extra config is needed for the project-page URL.
 
 ## Structure
 
